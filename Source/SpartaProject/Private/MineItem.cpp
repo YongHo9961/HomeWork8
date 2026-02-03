@@ -6,6 +6,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "SpartaGameState.h"
 #include "Particles/ParticleSystemComponent.h"
+#include "UObject/WeakObjectPtr.h"
 
 
 AMineItem::AMineItem()
@@ -104,14 +105,15 @@ void AMineItem::Explode()
 
 	if (Particle)
 	{
+		TWeakObjectPtr<UParticleSystemComponent> WeakParticle = Particle;
 
 		GetWorld()->GetTimerManager().SetTimer(
 			DestroyParticleTimerHandle,
-			[Particle]()
+			[WeakParticle]()
 			{
-				if (IsValid(Particle))
+				if (UParticleSystemComponent* Comp = WeakParticle.Get())
 				{
-					Particle->DestroyComponent();
+					Comp->DestroyComponent();
 				}
 			},
 			2.0f,

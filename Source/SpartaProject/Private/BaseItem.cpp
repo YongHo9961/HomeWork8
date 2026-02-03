@@ -102,6 +102,7 @@ void ABaseItem::DestroyItem()
 
 void ABaseItem::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
+
 	if (GetWorld() && DestroyParticleTimerHandle.IsValid())
 	{
 		GetWorld()->GetTimerManager().ClearTimer(DestroyParticleTimerHandle);
